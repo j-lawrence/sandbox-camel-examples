@@ -5,18 +5,18 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 
-public class CallMethodUsingClassComponentApp {
+public class CallMethodUsingClassApp {
     public static void main(String[] args) throws Exception {
         CamelContext context = new DefaultCamelContext();
         context.addRoutes(new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("direct:start")
+                from("direct:endpoint")
                         .to("class:com.ajltec.sandbox.camel.examples.simpleservice.SampleService?method=execute");
             }
         });
         context.start();
         ProducerTemplate producerTemplate = context.createProducerTemplate();
-        producerTemplate.sendBody("direct:start", "Hello Camel");
+        producerTemplate.sendBody("direct:endpoint", "Hello Camel");
     }
 }
