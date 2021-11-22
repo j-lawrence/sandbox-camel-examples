@@ -10,7 +10,7 @@ public class ProdAndConsumerProcessorApp {
         context.addRoutes(new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("direct:start").process(new Processor() {
+                from("direct:endpoint").process(new Processor() {
                     public void process(Exchange exchange) throws Exception {
                         Object message = exchange.getIn().getBody();
                         System.out.println("Processor invoked. Message is: " + message);
@@ -18,17 +18,17 @@ public class ProdAndConsumerProcessorApp {
 //                        exchange.getMessage().setBody("Hello World by AJL");
                     }
                 })
-                        .to("seda:end");
+                        .to("seda:endpoint");
             }
         });
         context.start();
         ProducerTemplate producerTemplate = context.createProducerTemplate();
         String msg = "Hello Everyone";
         System.out.println("Sending message: " + msg);
-        producerTemplate.sendBody("direct:start", msg);
+        producerTemplate.sendBody("direct:endpoint", msg);
 
         ConsumerTemplate consumerTemplate = context.createConsumerTemplate();
-        String message = consumerTemplate.receiveBody("seda:end", String.class);
+        String message = consumerTemplate.receiveBody("seda:endpoint", String.class);
         System.out.println("Message Received: " + message);
     }
 }

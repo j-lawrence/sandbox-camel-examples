@@ -9,7 +9,7 @@ import org.apache.camel.support.SimpleRegistry;
 import java.util.HashMap;
 import java.util.Map;
 
-public class callMethodUsingBeanComponentApp {
+public class CallMethodUsingBeanApp {
     public static void main(String[] args) throws Exception {
 
         SampleService sampleService = new SampleService();
@@ -22,12 +22,12 @@ public class callMethodUsingBeanComponentApp {
         context.addRoutes(new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("direct:start")
+                from("direct:endpoint")
                         .to("bean:sampleService?method=execute");
             }
         });
         context.start();
         ProducerTemplate producerTemplate = context.createProducerTemplate();
-        producerTemplate.sendBody("direct:start", "Hello Camel");
+        producerTemplate.sendBody("direct:endpoint", "Hello Camel");
     }
 }
