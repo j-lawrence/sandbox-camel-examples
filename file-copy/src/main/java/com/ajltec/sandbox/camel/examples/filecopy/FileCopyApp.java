@@ -7,7 +7,9 @@ import org.apache.camel.impl.DefaultCamelContext;
 public class FileCopyApp {
 
     public static void main(String[] args) throws Exception {
+        //Setting up camel context
         final CamelContext camelContext = new DefaultCamelContext();
+        //Adding Camel route
         camelContext.addRoutes(new RouteBuilder() {
             @Override
             public void configure() throws Exception {
@@ -16,6 +18,7 @@ public class FileCopyApp {
         });
         //Running indefinitely so that files will be picked up as soon as it is dropped
         while(true){
+            //starting context
             camelContext.start();
             //Sleeping 1 min to avoid overhead for CPU
             Thread.sleep(1000);
